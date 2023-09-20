@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://hru405r1p0ld"]
+
+[ext_resource type="Texture2D" uid="uid://ukq5m0jukq1m" path="res://assets/paper.png" id="1_johpr"]
+[ext_resource type="Script" path="res://src/resources/UnitInfo.cs" id="2_l6tbq"]
+
+[resource]
+script = ExtResource("2_l6tbq")
+Sprite = ExtResource("1_johpr")
+GroupName = "paper"
+MaskLayer = 1
+LosesTo = "scissors"

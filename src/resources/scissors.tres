@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://diqnwh6ya11hu"]
+
+[ext_resource type="Texture2D" uid="uid://bqrope634qrtv" path="res://assets/scissors.png" id="1_yo4eq"]
+[ext_resource type="Script" path="res://src/resources/UnitInfo.cs" id="2_8ydtm"]
+
+[resource]
+script = ExtResource("2_8ydtm")
+Sprite = ExtResource("1_yo4eq")
+GroupName = "scissors"
+MaskLayer = 2
+LosesTo = "rock"

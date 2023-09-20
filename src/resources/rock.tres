@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dfbn3yw3j78rs"]
+
+[ext_resource type="Texture2D" uid="uid://dm8gj6vu8i2a1" path="res://assets/rock.png" id="1_nyd63"]
+[ext_resource type="Script" path="res://src/resources/UnitInfo.cs" id="1_s0hcr"]
+
+[resource]
+script = ExtResource("1_s0hcr")
+Sprite = ExtResource("1_nyd63")
+GroupName = "rock"
+MaskLayer = 0
+LosesTo = "paper"
