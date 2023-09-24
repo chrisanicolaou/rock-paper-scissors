@@ -1,9 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyu3jar7ghtpb"]
+[gd_scene load_steps=8 format=3 uid="uid://dyu3jar7ghtpb"]
 
 [ext_resource type="Script" path="res://src/Main.cs" id="1_bhoe1"]
+[ext_resource type="PackedScene" uid="uid://dffipyx7fru4q" path="res://src/unit.tscn" id="2_cawcd"]
+[ext_resource type="Resource" uid="uid://hru405r1p0ld" path="res://src/resources/paper.tres" id="3_48vyn"]
+[ext_resource type="Resource" uid="uid://diqnwh6ya11hu" path="res://src/resources/scissors.tres" id="4_7rqnp"]
+[ext_resource type="Resource" uid="uid://dfbn3yw3j78rs" path="res://src/resources/rock.tres" id="5_f3avr"]
+[ext_resource type="PackedScene" uid="uid://ebp2ysycx22p" path="res://src/hud.tscn" id="6_nco10"]
 
-[node name="Main" type="Node"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67aff"]
+size = Vector2(222, 140)
+
+[node name="Main" type="Node" node_paths=PackedStringArray("PaperSpawnArea", "RockSpawnArea", "ScissorsSpawnArea")]
 script = ExtResource("1_bhoe1")
+Unit = ExtResource("2_cawcd")
+Amount = 10
+PaperSpawnArea = NodePath("PaperSpawnArea")
+RockSpawnArea = NodePath("RockSpawnArea")
+ScissorsSpawnArea = NodePath("ScissorsSpawnArea")
+PaperInfo = ExtResource("3_48vyn")
+ScissorsInfo = ExtResource("4_7rqnp")
+RockInfo = ExtResource("5_f3avr")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -12,3 +28,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.286275, 0.360784, 0.282353, 1)
+
+[node name="PaperSpawnArea" type="Area2D" parent="."]
+position = Vector2(11, 527)
+collision_layer = 0
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaperSpawnArea"]
+position = Vector2(131, -89)
+shape = SubResource("RectangleShape2D_67aff")
+
+[node name="RockSpawnArea" type="Area2D" parent="."]
+position = Vector2(345, 173)
+collision_layer = 0
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RockSpawnArea"]
+position = Vector2(125, -80)
+shape = SubResource("RectangleShape2D_67aff")
+
+[node name="ScissorsSpawnArea" type="Area2D" parent="."]
+position = Vector2(696, 528)
+collision_layer = 0
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScissorsSpawnArea"]
+position = Vector2(125, -80)
+shape = SubResource("RectangleShape2D_67aff")
+
+[node name="HUD" parent="." instance=ExtResource("6_nco10")]

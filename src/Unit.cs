@@ -1,47 +1,64 @@
 using Godot;
 using System;
 
-public partial class Unit : Node2D
+public partial class Unit : Area2D
 {
 	[Export] public float Speed { get; set; } = 300;
-	[Export] public UnitInfo UnitInfo { get; private set; }
+	[Export] public UnitInfo UnitInfo { get; set; }
+	public Vector2 Direction { get; private set; }
+
+	private Global _global;
 	
 	private Vector2 _screenSize;
-	private Vector2 _startDirection;
 
 	private Sprite2D _sprite;
-	private RigidBody2D _rb;
 	
 	public override void _Ready()
 	{
+		_global = GetNode<Global>("/root/Global");
+		if (UnitInfo == null)
+		{
+			GD.PrintErr("Cannot instantiate Unit without a UnitInfo");
+		}
 		_screenSize = GetViewportRect().Size;
-		_startDirection = new Vector2
+		Direction = new Vector2
 		{
 			X = GD.Randf() * 2 - 1,
 			Y = GD.Randf() * 2 - 1
 		}.Normalized();
 		_sprite = GetNode<Sprite2D>(nameof(Sprite2D));
-		_rb = GetNode<RigidBody2D>(nameof(RigidBody2D));
+		MutateTo(UnitInfo);
 	}
 
 	public override void _Process(double delta)
 	{
-		Position += _startDirection * Speed * (float)delta;
-		if (Position.X > _screenSize.X || Position.X < 0) _startDirection.X *= -1;
-		if (Position.Y > _screenSize.Y || Position.Y < 0) _startDirection.Y *= -1;
+		Position += Direction * Speed * _global.SpeedMultiplier * (float)delta;
+		if (Position.X > _screenSize.X || Position.X < 0) Direction = new Vector2(Direction.X * -1, Direction.Y);
+		if (Position.Y > _screenSize.Y || Position.Y < 0) Direction = new Vector2(Direction.X, Direction.Y * -1);
 	}
 
 	public void MutateTo(UnitInfo unit)
 	{
+		GD.Print($"Unit: {unit}. CurrentUnitInfo: {UnitInfo}");
 		_sprite.Texture = unit.Sprite;
-		RemoveFromGroup(UnitInfo.GroupName);
+		if (UnitInfo?.GroupName != null) RemoveFromGroup(UnitInfo.GroupName);
 		AddToGroup(unit.GroupName);
-		_rb.CollisionMask = unit.MaskLayer;
+		// _rb.CollisionMask = unit.MaskLayer;
 		UnitInfo = unit;
 	}
 
-	private void OnBodyEntered(PhysicsBody2D body)
+	private void OnAreaEntered(Area2D area)
 	{
-		// if (body.IsInGroup(UnitInfo.LosesTo)) 
+		if (area is not Unit collidingUnit) return;
+		var dir = Direction;
+		if (!IsSameSign(Direction.X, collidingUnit.Direction.X)) dir.X *= -1;
+		if (!IsSameSign(Direction.Y, collidingUnit.Direction.Y)) dir.Y *= -1;
+		Direction = dir;
+		if (area.IsInGroup(UnitInfo.LosesTo)) MutateTo(collidingUnit.UnitInfo);
+	}
+
+	private bool IsSameSign(float x, float y)
+	{
+		return x > 0 && y > 0 || x < 0 && y < 0;
 	}
 }
