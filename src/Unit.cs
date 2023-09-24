@@ -1,6 +1,14 @@
 using Godot;
-using System;
+using RockPaperScissors.Resources;
 
+namespace RockPaperScissors;
+
+/// <summary>
+/// <para>
+/// Script to control one unit of either rock, paper, or scissors, depending on the injected <see cref="Resources.UnitInfo"/>.
+/// </para>
+/// <seealso cref="Main"/>
+/// </summary>
 public partial class Unit : Area2D
 {
 	[Export] public float Speed { get; set; } = 300;
@@ -37,13 +45,12 @@ public partial class Unit : Area2D
 		if (Position.Y > _screenSize.Y || Position.Y < 0) Direction = new Vector2(Direction.X, Direction.Y * -1);
 	}
 
-	public void MutateTo(UnitInfo unit)
+	private void MutateTo(UnitInfo unit)
 	{
 		GD.Print($"Unit: {unit}. CurrentUnitInfo: {UnitInfo}");
 		_sprite.Texture = unit.Sprite;
 		if (UnitInfo?.GroupName != null) RemoveFromGroup(UnitInfo.GroupName);
 		AddToGroup(unit.GroupName);
-		// _rb.CollisionMask = unit.MaskLayer;
 		UnitInfo = unit;
 	}
 

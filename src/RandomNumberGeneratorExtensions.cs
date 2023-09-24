@@ -1,5 +1,12 @@
 ﻿using Godot;
 
+namespace RockPaperScissors;
+
+/// <summary>
+/// Wanted to see if extensions work.
+/// <para></para>
+/// They do, btw.
+/// </summary>
 public static class RandomNumberGeneratorExtensions
 {
     public static Vector2 RandomVector(this RandomNumberGenerator random, Vector2 start, Vector2 end)

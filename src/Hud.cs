@@ -1,6 +1,19 @@
 using Godot;
 using System;
 
+namespace RockPaperScissors;
+
+/// <summary>
+/// <para>
+/// Detects when the speed up button has been pressed, and updates the <see cref="Global.SpeedMultiplier">Global.SpeedMultiplier</see>.
+/// </para>
+/// <para>
+/// A cleaner way to handle this would be to have the Hud emit a signal <see cref="OnButtonPressed"/>, and have a separate node manage the
+/// logic. This would enforce single responsibility, and be more Godot-like.
+/// </para>
+/// <seealso cref="ButtonState"/>
+/// <seealso cref="Global"/>
+/// </summary>
 public partial class Hud : CanvasLayer
 {
 	private Global _global;

@@ -1,6 +1,19 @@
 using Godot;
 using System;
+using RockPaperScissors.Resources;
 
+namespace RockPaperScissors;
+
+/// <summary>
+/// <para>
+/// The entry point of the game. Identifiable by its naming, which is
+/// <a href="https://docs.godotengine.org/en/stable/tutorials/best_practices/scene_organization.html#choosing-a-node-tree-structure">a standard in godot projects.</a>
+/// </para>
+/// <para>
+/// Responsible for spawning <see cref="RockPaperScissors.Unit"/>s and constructing them via a <see cref="UnitInfo"/>.
+/// </para>
+/// <seealso cref="UnitInfo">UnitInfo</seealso>
+/// </summary>
 public partial class Main : Node
 {
 	[Export] public PackedScene Unit { get; set; }
@@ -32,7 +45,7 @@ public partial class Main : Node
 		{
 			var spawnedNode = Unit.Instantiate();
 			var nodeArea = spawnedNode as Area2D;
-			var spawnedUnit = spawnedNode as Unit;
+			var spawnedUnit = spawnedNode as RockPaperScissors.Unit;
 			GD.Print($"SpawnedUnit: {spawnedUnit}");
 			spawnedUnit.UnitInfo = type;
 			var random = new RandomNumberGenerator();
